@@ -2,6 +2,7 @@
   "name": "jabber-jaw-server",
   "version": "0.1.0",
   "private": true,
+  "main": "server.js",
   "dependencies": {
     "@pusher/chatkit-client": "^1.2.1",
     "react": "^16.6.3",
