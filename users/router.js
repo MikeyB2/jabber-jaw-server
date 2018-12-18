@@ -87,6 +87,16 @@ router.post('/', jsonParser, (req, res) => {
 	}
 
 	let { username, password, firstName = '', lastName = '' } = req.body;
+
+	// chatkit.createUser({
+	// 	id: username,
+	// 	name: username,
+	// })
+	// 	.then(() => {
+	// 		console.log('User created successfully');
+	// 	}).catch((err) => {
+	// 		console.log(err);
+	// 	});
 	// Username and password come in pre-trimmed, otherwise we throw an error
 	// before this
 	firstName = firstName.trim();
@@ -126,12 +136,13 @@ router.post('/', jsonParser, (req, res) => {
 			}
 			res.status(500).json({ code: 500, message: 'Internal server error' });
 		});
-	;
+
 
 	router.get('/', (req, res) => {
 		return User.find()
 			.then(users => res.json(users.map(user => user.serialize())))
 			.catch(err => res.status(500).json({ message: 'Internal server error' }));
 	});
+});
 
-	module.exports = { router };
+module.exports = { router };
