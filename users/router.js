@@ -1,19 +1,52 @@
+'use strict';
 const express = require('express');
 const bodyParser = require('body-parser');
-
+const Chatkit = require('@pusher/chatkit-server');
+const { instanceLocator, securityKey } = require('../config');
 const { User } = require('./models');
-
 const router = express.Router();
-
 const jsonParser = bodyParser.json();
+
+const chatkit = new Chatkit.default({
+	instanceLocator: instanceLocator,
+	key: securityKey,
+})
+
+// const createChatId = (user) => {
+// 	chatkit.createUser({
+// 		id: user.username,
+// 		name: user.firstName + ' ' + user.lastName,
+// 	})
+// 		.then(() => {
+// 			console.log('User created successfully');
+// 		}).catch((err) => {
+// 			console.log(err);
+// 		});
+// }
 
 // Post to register a new user
 router.post('/', jsonParser, (req, res) => {
+	let { username } = req.body;
+	chatkit
+		.createUser({
+			id: username,
+			name: username
+		})
+		.then(() => {
+			console.log(`User created: ${username}`);
+			res.sendStatus(201);
+		})
+		.catch(err => {
+			if (err.error === "services/chatkit/user_already_exists") {
+				console.log(`User already exists: ${username}`);
+				res.sendStatus(200);
+			} else {
+				res.status(err.status).json(err);
+			}
+		});
+
 	const requiredFields = ['username', 'password'];
 	const missingField = requiredFields.find(field => !(field in req.body));
-
-
-
 	if (missingField) {
 		return res.status(422).json({
 			code: 422,
@@ -53,7 +86,8 @@ router.post('/', jsonParser, (req, res) => {
 
 	const sizedFields = {
 		username: {
-			min: 1
+			min: 6,
+			max: 20
 		},
 		password: {
 			min: 8,
@@ -86,17 +120,8 @@ router.post('/', jsonParser, (req, res) => {
 		});
 	}
 
-	let { username, password, firstName = '', lastName = '' } = req.body;
+	let { password, firstName = '', lastName = '' } = req.body;
 
-	// chatkit.createUser({
-	// 	id: username,
-	// 	name: username,
-	// })
-	// 	.then(() => {
-	// 		console.log('User created successfully');
-	// 	}).catch((err) => {
-	// 		console.log(err);
-	// 	});
 	// Username and password come in pre-trimmed, otherwise we throw an error
 	// before this
 	firstName = firstName.trim();
@@ -129,20 +154,18 @@ router.post('/', jsonParser, (req, res) => {
 			return res.status(201).json(user.serialize());
 		})
 		.catch(err => {
-			// Forward validation errors on to the client, otherwise give a 500
-			// error because something unexpected has happened
 			if (err.reason === 'ValidationError') {
 				return res.status(err.code).json(err);
 			}
 			res.status(500).json({ code: 500, message: 'Internal server error' });
 		});
+});
 
 
-	router.get('/', (req, res) => {
-		return User.find()
-			.then(users => res.json(users.map(user => user.serialize())))
-			.catch(err => res.status(500).json({ message: 'Internal server error' }));
-	});
+router.get('/', (req, res) => {
+	return User.find()
+		.then(users => res.json(users.map(user => user.serialize())))
+		.catch(err => res.status(500).json({ message: 'Internal server error' }));
 });
 
 module.exports = { router };
