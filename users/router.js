@@ -11,18 +11,6 @@ const chatkit = new Chatkit.default({
 	key: securityKey,
 })
 
-// const createChatId = (user) => {
-// 	chatkit.createUser({
-// 		id: user.username,
-// 		name: user.firstName + ' ' + user.lastName,
-// 	})
-// 		.then(() => {
-// 			console.log('User created successfully');
-// 		}).catch((err) => {
-// 			console.log(err);
-// 		});
-// }
-
 // Post to register a new user
 router.post('/', jsonParser, (req, res) => {
 	let { username } = req.body;
