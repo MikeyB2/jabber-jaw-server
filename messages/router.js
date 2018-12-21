@@ -26,12 +26,12 @@ const localAuth = passport.authenticate('local', { session: false });
 
 // Post new message
 router.get('/', localAuth, (req, res) => {
-    ShoppingList.find({
+    Message.find({
         username: req.query.username
     })
-        .then(listItems => {
+        .then(messages => {
             res.json({
-                listItems: listItems.map(listItem => listItem.serialize())
+                messages: messages.map(message => message.serialize())
             });
         })
         .catch(err => {
@@ -42,10 +42,10 @@ router.get('/', localAuth, (req, res) => {
         });
 });
 
-//GET shopping-list item
+//GET messages
 router.get('/:id', localAuth, (req, res) => {
-    ShoppingList.findById(req.params.id)
-        .then(listItem => res.json(listItem.serialize()))
+    Message.findById(req.params.id)
+        .then(message => res.json(message.serialize()))
         .catch(err => {
             console.error(err);
             res.status(500).json({
@@ -54,9 +54,9 @@ router.get('/:id', localAuth, (req, res) => {
         });
 });
 
-// POST New Shopping-list item
+// POST New messages
 router.post('/', localAuth, (req, res) => {
-    const requiredFields = ['ingredient', 'username'];
+    const requiredFields = ['text', 'username', 'roomId'];
     for (let i = 0; i < requiredFields.length; i++) {
         const field = requiredFields[i];
         if (!(field in req.body)) {
@@ -66,12 +66,12 @@ router.post('/', localAuth, (req, res) => {
         }
     }
 
-    ShoppingList.create({
-        ingredient: req.body.ingredient,
-        amount: req.body.amount,
+    Message.create({
+        roomId: req.body.roomId,
+        text: req.body.text,
         username: req.body.username
     })
-        .then(listItem => res.status(201).json(listItem.serialize()))
+        .then(message => res.status(201).json(message.serialize()))
         .catch(err => {
             console.error(err);
             res.status(500).json({
@@ -80,43 +80,13 @@ router.post('/', localAuth, (req, res) => {
         });
 });
 
-//DELETE Shopping-list item
+//DELETE messages
 router.delete('/:id', localAuth, (req, res) => {
-    ShoppingList.findByIdAndRemove(req.params.id).then(() => {
+    Message.findByIdAndRemove(req.params.id).then(() => {
         console.log(`Deleted List Item with id \`${req.params.id}\``);
         res.status(204).end();
     });
 });
 
-//PUT update shopping-list item
-router.put('/:id', localAuth, (req, res) => {
-    if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
-        res.status(400).json({
-            error: 'Request path id and request body id values must match'
-        });
-    }
-
-    const updated = {};
-    const updateableFields = ['ingredient', 'amount', 'checked'];
-    updateableFields.forEach(field => {
-        if (field in req.body) {
-            updated[field] = req.body[field];
-        }
-    });
-
-    ShoppingList.findByIdAndUpdate(
-        req.params.id, {
-            $set: updated
-        }, {
-            new: true
-        }
-    )
-        .then(updatedListItem => res.status(204).end())
-        .catch(err =>
-            res.status(500).json({
-                message: 'WHAT DID YOU DO?!'
-            })
-        );
-});
 
 module.exports = { router };

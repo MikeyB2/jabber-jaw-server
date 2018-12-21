@@ -1,4 +1,11 @@
- language: node_js
- node_js: node
- services:
-     - mongodb
+language: node_js
+node_js: node
+services:
+- mongodb
+deploy:
+  provider: heroku
+  api_key:
+    secure: Y5/qwy2Cke36wt9g0q7Z8/q/LiYCJqZXfuXy5Zo3R019JKDwAtpXb2c9J4qD6m5vO77Z96p28pZdFPIAnhbyOEG0YCJOPWqQ46gzIGMy4i/l+pBtW750JsZoEyGCLnfgtkAkEWj/UdS8fI1A3OGIAJIfWmINep9uXHuIbV6dOOY/3RfDy6jXl5p2n6QkD5YEkv95wuk1Ka1s5Q6yaL7HHykW0w9pwlsEyGFf+zg3EGT7Ubug0FVri3ccVAmyEZau+K0l03padTFxw/XeJ7iJOylPefl51vEV6udmsCHgJ8c4nwMrSE1xXgXCD1f0gTXHhB+FdoE66wB1sccbYPM2rMODswZHsxI+f0+gNHNUSRr6J9Aj0Fm0ImOinvfwjxlKHRCtqP1DOaUfalpFfAK4SBbj6Kh96taQJus1SQfjHtRWEvR5AhCyOZzt/SPPV11GPqDGp0bu8Ad2QnxwTckLiZyRVMboXKnx/26NAOw7b92V3jADJJ1yOGCLZNWqUFmHCBEaJGesEMdh1sGRZlZAJny/Nsw7Vq1wTkCzXS1l/u/Hu46/3btJG2Q3EWR8Hs8nYd5+jY4id+wqTHf++5KTVglKLuhm0xqg/YznFh8ckKJtw3OKLvtnnaNkNee86fWos840WheSfDpIKCIpwpy0uRE8s/bWsHhTx1DdAHj15Dk=
+  app: https://fathomless-oasis-81135.herokuapp.com/
+  on:
+    repo: MikeyB2/jabber-jaw-server
