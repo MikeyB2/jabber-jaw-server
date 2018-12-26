@@ -1,4 +1,4 @@
-exports.DATABASE_URL = process.env.DATABASE_URL || 'mongodb://localhost/jabber-jaw';
+exports.DATABASE_URL = process.env.DATABASE_URL || 'mongodb://demo:Password1@ds139334.mlab.com:39334/jabber-jaw';
 exports.TEST_DATABASE_URL = process.env.TEST_DATABASE_URL || 'mongodb://localhost/test-jabber-jaw';
 exports.PORT = process.env.PORT || 8080;
 exports.JWT_SECRET = process.env.JWT_SECRET || 'secret_string';
