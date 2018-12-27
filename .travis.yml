@@ -2,3 +2,10 @@ language: node_js
 node_js: node
 services:
 - mongodb
+deploy:
+  provider: heroku
+  api_key:
+    secure: fBj3QAfwzcUB64Uxr4SdwUZ36B2Eit3+/5zC/zxgQ1benh9PYAR2W0+Z86/wKbY+DJq/t/F9zKcxH9hhBik3RjyFd+3yiECdbKrcVwDSIZ0bnqIYvEtsl7jbiFwZfixC+FxMKuAj5YglTQ7jlje+TwNRmfH6v3IRNEBT1aN2lhM+rzILRzcfA4CZ5FqBhLPB9JYjZyuD055FnqYqJ4nHjWiT7B14KegmJwQaXwEq66XsgVtUpaHvQHDE2SW+YJw340puZPtxUozLv44qGZ+cmWw9OdD6erRCxy58vQmTfBlbcJAywZkWyjWUPyAeLCh8zSL5DB9Os7Q38otNVdQOlRMFhVPIwXPThHbJE2wTKjWri7D1v8QVwVtGb6wfPdy2vHLaEFhCwSObhuGpQ4wUzBUlkJMpoJR/QoI0aAnMpsR8Isa4HB+fdZzJTdB99C+zqno1PsILNM5k7SdD9Mu/fSVODDz6qxhZRmikFdsVfPcGFQpnbGcfnzg5JnOvqxEfNF2LnYS1XzMJLOh43Q39+r9QxM7dmobDO4Y2gE1EAAIlZesscA5l1ls8KEoVP9tHMpwdVY67nMC6XG40eQnN3zr0pZzZE9/4gW0s+Q0H9tzYxmwJoTnBmlwkAfb6PbAM/lCyhEyumKzvq3omG62o5d0lCUj5YAS6lqsWypNgvF4=
+  app: jabber-jaw-server
+  on:
+    repo: MikeyB2/jabber-jaw-server
