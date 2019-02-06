@@ -8,7 +8,7 @@ const jsonParser = bodyParser.json();
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
-const chatkit = new Chatkit.default({
+const Chatkit = new Chatkit.default({
     instanceLocator: instanceLocator,
     key: securityKey,
 })
